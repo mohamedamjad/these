@@ -1,0 +1,208 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Compte rendu de la réunion de démarrage de thèse
+\end_layout
+
+\begin_layout Author
+Mohamed-Amjad LASRI
+\end_layout
+
+\begin_layout Subsection*
+Présents:
+\end_layout
+
+\begin_layout Itemize
+Christian THOM
+\end_layout
+
+\begin_layout Itemize
+Pierre BRIOLE
+\end_layout
+
+\begin_layout Itemize
+Frederic VERLUISE
+\end_layout
+
+\begin_layout Itemize
+Mohamed-Amjad LASRI
+\end_layout
+
+\begin_layout Itemize
+Olivier MARTIN
+\end_layout
+
+\begin_layout Subsection*
+Grandes étapes de la thèse:
+\end_layout
+
+\begin_layout Itemize
+Le premier point relevé est celui de la taille du réseau.
+ Compte tenu de la zone de déploiement prévue ( une zone de sécurité de
+ 2 à 3km du cratère), le réseau de Geocubes va être d'une taille > 7Km2.
+ Une solution serait alors à trouver pour étendre un réseau de Geocubes
+ à des surfaces deca-kilometriques (faire des sous-réseaux, introduire récepteur
+ bi-fréquence,...).
+\end_layout
+
+\begin_layout Itemize
+Il faut pouvoir récupérer les données brutes des Geocubes et les transfomer
+ en RINEX (format conventionnel) pour pouvoir juger de la qualité des mesures
+ et éventuellement compléter le réseau des Geocubes avec des stations bi-fréquen
+ces permanentes de l'Etna et de permettre à la communauté scientifique de
+ l'observatoire de Catan de profiter de ces données pour faire du post traitemen
+t.
+ Le réseau de Geocubes ne viendra pas concurrencer (pour le moment en tout
+ cas) les équipements existants, mais se présente comme réseau de capteurs
+ qui vient appuyer les dispositifs existants et capable d'aller opérer dans
+ des endroits difficilement accessibles par les chercheurs.
+ 
+\end_layout
+
+\begin_layout Itemize
+Reflexion initiée autour du future coordinateur.
+ Pour Frederic: Il faut développer une carte coordinateur basse consommation
+ pour rejoindre la philosophie générale d'un réseau de Geocubes (l'ultra-basse
+ consommation) qui ne fait que le pont entre les Geocubes et un serveur
+ de calculs déporté.
+ Pour Christian: La carte qui ne fera que le pont pourra faire les calculs
+ aussi (Ce ne sont que des inversions de matrice) et donc le problème est
+ plutôt de trouver le bon processeur/carte (ultra basse consommation).
+\end_layout
+
+\begin_layout Itemize
+Réflexion initiée autour des futurs capteurs qui vienderont se pluguer au
+ Geocube.
+ Pour Pierre: combiner un acceleromètre (acceleration), un sismomètre (vitesse
+ des mouvements) et un GPS (position) peut donner naissance à un système
+ de surveillance autonome et capable d'observer des mouvements variés, et
+ qui n'existe pas jusqu'à présent.
+\end_layout
+
+\begin_layout Itemize
+L'acceleromètre qu'on peut utiliser doit pouvoir observer des mouvements
+ de l'ordre de 100khz à 200khz (A voir pour l'accel.
+ actuel).
+\end_layout
+
+\begin_layout Itemize
+Point soulevé par Christian: La densité d'un réseau de Geocube peut servir
+ à la modélisation troposphérique si on utilise un filtre de Kalman et on
+ suppose que le biais troposphérique n'a pas changé entre t et t+1...
+ piste à creuser, cerise sur le gâteau.
+ Pour Pierre: c'est tout un gâteau à part.
+\end_layout
+
+\begin_layout Subsection*
+À court terme:
+\end_layout
+
+\begin_layout Standard
+D'ici la première manip prévue courant Juillet à l'ETNA il va falloir:
+\end_layout
+
+\begin_layout Itemize
+récupérer les RINEX d'un certain nombre de stations RGP et les traiter pour
+ pouvoir reconstituer le modèle ionosphérique à partir de ces stations.
+ (Important pour me familiariser avec le dit format et la modélisation iono-trop
+osphérique même si on n'espère pas avoir grand chose pour la troposphère).
+\end_layout
+
+\begin_layout Itemize
+Développer la couche logicielle du coordinateur qui permettera d'intégrer
+ dans les calculs et les Geocubes et les stations RGP choisies en post-traitemen
+t.
+ Ce qui va aider à l'assimilation du code par le doctorant.
+\end_layout
+
+\begin_layout Itemize
+Voir comment on peut récupérer les ephémerides depuis les messages des satellite
+s et implémenter la méthode dans les Geocubes/Coordinateur (A voir) pour
+ s'en passer des serveurs RGP.
+\end_layout
+
+\begin_layout Itemize
+Une réflexion va être menée au LOEMI autour des accéléromètres, geophones
+ qui peuvent être utilisés.
+\end_layout
+
+\begin_layout Subsection*
+À venir:
+\end_layout
+
+\begin_layout Standard
+Faute de temps une autre réunion serait à prévoir fin Janvier-début Février
+ pour continuer la réflexion autour des capteurs qui seront ajoutés au Geocube.
+ Je me charge de faire un doodle mi-Janvier pour voir vos disponibilités.
+\end_layout
+
+\end_body
+\end_document
