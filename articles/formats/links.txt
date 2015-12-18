@@ -1,0 +1,4 @@
+Comprendre le format RINEX avec un beau graphique:
+http://gage14.upc.es/gLAB/HTML/Observation_Rinex_v2.11.html
+
+
