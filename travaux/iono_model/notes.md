@@ -16,7 +16,7 @@
 
 
 ## A voir:
-- carrier phase smoothing technique. 
+- carrier phase smoothing technique. (bien explique dans papier université calgary) 
 
 ## constantes:
 - L1 = 1575.42Mhz et L2 = 1227.60Mhz
