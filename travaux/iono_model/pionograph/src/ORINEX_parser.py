@@ -5,7 +5,7 @@
 import ConfigParser
 
 
-class ORINEX:
+class Orinex:
     # Attributs
 
     # Voir pour plus d'explications sur le header d'un fichier d'observations rinex sur: http://gage14.upc.es/gLAB/HTML/Observation_Rinex_v2.11.html
@@ -73,7 +73,7 @@ class ORINEX:
             if h:
                 if "END OF HEADER" in lines[i]:
                     h=False
-                    print self.header
+                    #print self.header
                     print "-------------END OF HEADER-----------------"
                 self.process_orinex_header_line(lines[i])
             else:
@@ -81,14 +81,15 @@ class ORINEX:
                     if "FILE SPLICE" in lines[i]:
                         next
                     else:
-                        print "INDEX"+str(i)
+                        #print "INDEX"+str(i)
                         self.process_ORINEX_epoch(i, lines)
                         i+=1
             i+=1
-        print self.header
+            #print self.epochs
+        #print self.header
 
     def process_ORINEX_epoch(self, index_first_line, lines):
-        print lines[index_first_line]
+        #print lines[index_first_line]
         # Prend l'indice de la première ligne d'une epoch et parse l'epoch
         #self.epochs[lines[index_first_line][:3]+'_'+lines[index_first_line][3:6]+'_'+lines[index_first_line][6:9]+'_'+lines[index_first_line][9:12]+'_'+lines[index_first_line][12:15]+'_'+lines[index_first_line][15:26]]
         tmp_epoch={'time_y':lines[index_first_line][:3],
@@ -100,7 +101,7 @@ class ORINEX:
                    'epoch_flag':lines[index_first_line][26:29],
                    'epoch_sat_number':lines[index_first_line][29:32],
                    'epoch_satellites':{}}
-        print tmp_epoch
+        #print tmp_epoch
         tmp_sat_epoch={}
         Nsat=int(lines[index_first_line][29:32])
         if int(tmp_epoch['epoch_sat_number'])>12:
