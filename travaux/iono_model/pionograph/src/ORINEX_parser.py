@@ -1,9 +1,10 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 # Mohamed Amjad LASRI
+# TODO Faire Un test complet avec L1 L2 et valider pour 2.10 et 2.11
+# TODO ajouter parseur pour ORINEX L1 uniquement
 
 import ConfigParser
-
 
 class Orinex:
     # Attributs
@@ -19,7 +20,7 @@ class Orinex:
               'marker_number':'',
               'observer':'',
               'agency':'',
-              'receiver_number':'', 
+              'receiver_number':'',
               'receiver_type':'',
               'receiver_version':'',
               'antenna_number':'',
@@ -53,8 +54,7 @@ class Orinex:
               'number_of_sat':''}
 
     epochs = {}
-     
-    
+
     # Méthodes
     def __init__(self):
         Config = ConfigParser.ConfigParser()
@@ -86,7 +86,8 @@ class Orinex:
                         i+=1
             i+=1
             #print self.epochs
-        #print self.header
+        print self.header
+        print self.epochs
 
     def process_ORINEX_epoch(self, index_first_line, lines):
         #print lines[index_first_line]
@@ -101,12 +102,13 @@ class Orinex:
                    'epoch_flag':lines[index_first_line][26:29],
                    'epoch_sat_number':lines[index_first_line][29:32],
                    'epoch_satellites':{}}
+        self.epochs[lines[index_first_line][:3]+'_'+lines[index_first_line][3:6]+'_'+lines[index_first_line][6:9]+'_'+lines[index_first_line][9:12]+'_'+lines[index_first_line][12:15]+'_'+lines[index_first_line][15:26]]={}
         #print tmp_epoch
         tmp_sat_epoch={}
         Nsat=int(lines[index_first_line][29:32])
         if int(tmp_epoch['epoch_sat_number'])>12:
             for i in range(0, 12): # les PRN des satellites de l'epoch premier ligne
-                tmp_sat_epoch['PRN']=lines[index_first_line][32+i*3:35+i*3]
+                PRN=lines[index_first_line][32+i*3:35+i*3]
                 tmp_sat_epoch['L1']=lines[index_first_line+2+i*2][:14]
                 tmp_sat_epoch['L1LLI']=lines[index_first_line+2+i*2][14:15]
                 tmp_sat_epoch['L1SSI']=lines[index_first_line+2+i*2][15:16]
@@ -121,10 +123,10 @@ class Orinex:
                 tmp_sat_epoch['C1SSI']=lines[index_first_line+2+2*i][79:80]
                 tmp_sat_epoch['S1']=lines[index_first_line+3+2*i][:14]
                 tmp_sat_epoch['S2']=lines[index_first_line+3+2*i][16:30]
-                tmp_epoch['epoch_satellites'][tmp_sat_epoch['PRN']]=tmp_sat_epoch
+                tmp_epoch['epoch_satellites'][PRN]=tmp_sat_epoch
 
             for i in range(13, Nsat):
-                tmp_sat_epoch['PRN']=lines[index_first_line+1][32+(i-13)*3:35+(i-13)*3]
+                PRN=lines[index_first_line+1][32+(i-13)*3:35+(i-13)*3]
                 tmp_sat_epoch['L1']=lines[index_first_line+i*2][:14]
                 tmp_sat_epoch['L1LLI']=lines[index_first_line+i*2][14:15]
                 tmp_sat_epoch['L1SSI']=lines[index_first_line+i*2][15:16]
@@ -139,10 +141,10 @@ class Orinex:
                 tmp_sat_epoch['C1SSI']=lines[index_first_line+2*i][79:80]
                 tmp_sat_epoch['S1']=lines[index_first_line+1+2*i][:14]
                 tmp_sat_epoch['S2']=lines[index_first_line+1+2*i][16:30]
-                tmp_epoch['epoch_satellites'][tmp_sat_epoch['PRN']]=tmp_sat_epoch
+                tmp_epoch['epoch_satellites'][PRN]=tmp_sat_epoch
         else:
             for i in range(0, Nsat): # les PRN des satellites de l'epoch deuxieme ligne
-                tmp_sat_epoch['PRN']=lines[index_first_line][32+i*3:35+i*3]
+                PRN=lines[index_first_line][32+i*3:35+i*3]
                 tmp_sat_epoch['L1']=lines[index_first_line+2+i*2][:14]
                 tmp_sat_epoch['L1LLI']=lines[index_first_line+2+i*2][14:15]
                 tmp_sat_epoch['L1SSI']=lines[index_first_line+2+i*2][15:16]
@@ -157,10 +159,9 @@ class Orinex:
                 tmp_sat_epoch['C1SSI']=lines[index_first_line+2+2*i][79:80]
                 tmp_sat_epoch['S1']=lines[index_first_line+3+2*i][:14]
                 tmp_sat_epoch['S2']=lines[index_first_line+3+2*i][16:30]
-                tmp_epoch['epoch_satellites'][tmp_sat_epoch['PRN']]=tmp_sat_epoch
+                tmp_epoch['epoch_satellites'][PRN]=tmp_sat_epoch
 
-        self.epochs[lines[index_first_line][:3]+'_'+lines[index_first_line][3:6]+'_'+lines[index_first_line][6:9]+'_'+lines[index_first_line][9:12]+'_'+lines[index_first_line][12:15]+'_'+lines[index_first_line][15:26]]=tmp_sat_epoch
-
+        self.epochs[lines[index_first_line][:3]+'_'+lines[index_first_line][3:6]+'_'+lines[index_first_line][6:9]+'_'+lines[index_first_line][9:12]+'_'+lines[index_first_line][12:15]+'_'+lines[index_first_line][15:26]].update(tmp_epoch)
 
     def process_orinex_header_line(self, line):
         if "RINEX VERSION" in line:
@@ -239,4 +240,4 @@ class Orinex:
         elif "# OF SATELLITES" in line:
             self.header['number_of_sat']=line[:6]
 
-rinex=ORINEX()
+rinex=Orinex()

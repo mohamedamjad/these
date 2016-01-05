@@ -6,13 +6,11 @@ class MatrixToRinex:
     def __init__():
         print 'OK'
 
-    def matrixToORinexHeader():
-        print 'A FAIRE'
-
     def epochToRinex(self, rinex, epoch):
         # Ajouter une epoch à un RINEX deja prérempli
 
     def matrixToORinex(self, file, sep, comment):
+        old_epoch_keys=[]
         for line in file.readlines():
             if comment in line:
                 if 'FORMAT' in line:
@@ -20,6 +18,7 @@ class MatrixToRinex:
                 next
             else:
                 epoch_key=line.split(sep)[0] # Clef de l'epoch
+                old_epoch_keys.append(epoch_key)
                 if len(keys) != len(line.splite(sep)):
                     # CRITIQUE PROBLEM LOG QUAND LE HEADER NE CORRESPOND PAS
                     # AU NOMBRE DE COLONES
@@ -50,3 +49,4 @@ class MatrixToRinex:
                                         'C1SSI':line.splite(sep)[7],
                                         'S1':line.splite(sep)[8]
                      }
+        return epochs
