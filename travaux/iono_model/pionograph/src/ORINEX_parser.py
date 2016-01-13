@@ -62,6 +62,7 @@ class Orinex:
         filePath=Config.get('input', 'ORINEX_FILE_PATH')
         print filePath
         self.parseORINEX(filePath)
+        #print self.epochs
 
     def parseORINEX(self, filePath):
         file = open(filePath, 'r+')
@@ -74,7 +75,7 @@ class Orinex:
                 if "END OF HEADER" in lines[i]:
                     h=False
                     #print self.header
-                    print "-------------END OF HEADER-----------------"
+                    #print "-------------END OF HEADER-----------------"
                 self.process_orinex_header_line(lines[i])
             else:
                 if "G" in lines[i] or "R" in lines[i]:
@@ -85,14 +86,8 @@ class Orinex:
                         self.process_ORINEX_epoch(i, lines)
                         i+=1
             i+=1
-            #print self.epochs
-        print self.header
-        print self.epochs
 
     def process_ORINEX_epoch(self, index_first_line, lines):
-        #print lines[index_first_line]
-        # Prend l'indice de la première ligne d'une epoch et parse l'epoch
-        #self.epochs[lines[index_first_line][:3]+'_'+lines[index_first_line][3:6]+'_'+lines[index_first_line][6:9]+'_'+lines[index_first_line][9:12]+'_'+lines[index_first_line][12:15]+'_'+lines[index_first_line][15:26]]
         tmp_epoch={'time_y':lines[index_first_line][:3],
                    'time_M':lines[index_first_line][3:6],
                    'time_d':lines[index_first_line][6:9],
@@ -106,7 +101,7 @@ class Orinex:
         #print tmp_epoch
         tmp_sat_epoch={}
         Nsat=int(lines[index_first_line][29:32])
-        if int(tmp_epoch['epoch_sat_number'])>12:
+        if Nsat>12: 
             for i in range(0, 12): # les PRN des satellites de l'epoch premier ligne
                 PRN=lines[index_first_line][32+i*3:35+i*3]
                 tmp_sat_epoch['L1']=lines[index_first_line+2+i*2][:14]
@@ -124,6 +119,7 @@ class Orinex:
                 tmp_sat_epoch['S1']=lines[index_first_line+3+2*i][:14]
                 tmp_sat_epoch['S2']=lines[index_first_line+3+2*i][16:30]
                 tmp_epoch['epoch_satellites'][PRN]=tmp_sat_epoch
+                tmp_sat_epoch={}
 
             for i in range(13, Nsat):
                 PRN=lines[index_first_line+1][32+(i-13)*3:35+(i-13)*3]
@@ -142,6 +138,7 @@ class Orinex:
                 tmp_sat_epoch['S1']=lines[index_first_line+1+2*i][:14]
                 tmp_sat_epoch['S2']=lines[index_first_line+1+2*i][16:30]
                 tmp_epoch['epoch_satellites'][PRN]=tmp_sat_epoch
+                tmp_sat_epoch={}
         else:
             for i in range(0, Nsat): # les PRN des satellites de l'epoch deuxieme ligne
                 PRN=lines[index_first_line][32+i*3:35+i*3]
@@ -160,8 +157,9 @@ class Orinex:
                 tmp_sat_epoch['S1']=lines[index_first_line+3+2*i][:14]
                 tmp_sat_epoch['S2']=lines[index_first_line+3+2*i][16:30]
                 tmp_epoch['epoch_satellites'][PRN]=tmp_sat_epoch
+                tmp_sat_epoch={}
 
-        self.epochs[lines[index_first_line][:3]+'_'+lines[index_first_line][3:6]+'_'+lines[index_first_line][6:9]+'_'+lines[index_first_line][9:12]+'_'+lines[index_first_line][12:15]+'_'+lines[index_first_line][15:26]].update(tmp_epoch)
+        self.epochs[lines[index_first_line][:3]+'_'+lines[index_first_line][3:6]+'_'+lines[index_first_line][6:9]+'_'+lines[index_first_line][9:12]+'_'+lines[index_first_line][12:15]+'_'+lines[index_first_line][15:26]]=tmp_epoch
 
     def process_orinex_header_line(self, line):
         if "RINEX VERSION" in line:
@@ -239,5 +237,4 @@ class Orinex:
 
         elif "# OF SATELLITES" in line:
             self.header['number_of_sat']=line[:6]
-
-rinex=Orinex()
+#orinex=Orinex()

@@ -14,7 +14,7 @@ class Nrinex:
     def __init__(self):
         Config = ConfigParser.ConfigParser()
         Config.read("pionograph.ini")
-        filePath=Config.get('input', 'ORINEX_FILE_PATH')
+        filePath=Config.get('input', 'NRINEX_FILE_PATH')
         print filePath
         self.parseNRINEX(filePath)
 
@@ -39,8 +39,9 @@ class Nrinex:
                         #print "INDEX"+str(i)
                         self.process_NRINEX_epoch(i, lines)
                         i+=1
-            i+=5
+            i+=1
         print self.header
+        print self.epochs
 
     def process_nrinex_header_line(self, line):
         if "RINEX VERSION" in line:
@@ -78,8 +79,8 @@ class Nrinex:
         tmp_epoch={'PRN':lines[i][:2],
                    'time_y':lines[i][2:5],
                    'time_M':lines[i][5:8],
-                   'time_d':lines[i][8,11],
-                   'time_H':lines[i][11,14],
+                   'time_d':lines[i][8:11],
+                   'time_H':lines[i][11:14],
                    'time_m':lines[i][14:17],
                    'time_s':lines[i][17:22],
                    'sv_clock_bias':lines[i][22:41],
@@ -112,4 +113,5 @@ class Nrinex:
                    'transmission_time':lines[i+6][3:22],
                    'fit_interval':lines[i+6][22:41]
         }
+        self.epochs[tmp_epoch['PRN']+'_'+tmp_epoch['time_y']+'_'+tmp_epoch['time_M']+'_'+tmp_epoch['time_d']+'_'+tmp_epoch['time_H']+'_'+tmp_epoch['time_m']+'_'+tmp_epoch['time_s']]=tmp_epoch
 nrinex=Nrinex()
