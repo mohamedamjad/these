@@ -11,6 +11,7 @@ class pionograph:
     f2=1227.60
     def __init__(self, prn):
         orinex=ORINEX_parser.Orinex()
+        nrinex=NRINEX_parser.Nrinex()
         self.epochsToTEC(orinex.epochs,prn)
     def column(self,matrix, i):
         return [row[i] for row in matrix]

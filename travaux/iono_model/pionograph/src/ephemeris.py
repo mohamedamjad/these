@@ -53,3 +53,20 @@ class Ephemeris:
         Z=y*math.sin(i)
         # Retourne le résultat
         return (X,Y,Z)
+
+    def cart2geo(X,Y,Z): # Convertit coordonnées cartésiennes en geographiques
+        config = ConfigParser.ConfigParser()
+        config.read('pionograph.ini')
+        f = config.get('constantes','f')
+        a = config.get('constantes','a')
+        R=math.sqrt(X*X+Y*Y+Z*Z)
+        lamda=math.atan(Y/X)
+        e=math.sqrt(math.pow((f-1),2)-1)
+        mu=math.atan(Z/math.sqrt(X*X+Y*Y)*((1-f)+(e*e*a/R)))
+        phi=math.atan((Z*(1-f)+e*e*a*math.pow(math.sin(mu),3))/((1-f)*(math.sqrt(X*X+Y*Y)-e*e*a*math.pow(math.cos(mu),3))))
+        h=(math.sqrt(X*X+Y*Y)*math.cos(phi))+(Z*math.sin(phi))-(a*math.sqrt(1-e*e*math.pow(math.sin(phi),2)))
+        return (lamda,phi,h)
+
+    def rec_sat_vector(xr, yr, zr, xs, ys, zs): # Calculer le vecteur recepteur-satellite
+        return (xs-xr,ys-yr,zs-zr)
+eph=Ephemeris()
