@@ -101,6 +101,7 @@ class Orinex:
         #print tmp_epoch
         tmp_sat_epoch={}
         Nsat=int(lines[index_first_line][29:32])
+        #index_first_line-=1
         if Nsat>12: 
             for i in range(0, 12): # les PRN des satellites de l'epoch premier ligne
                 PRN=lines[index_first_line][32+i*3:35+i*3]
@@ -110,12 +111,12 @@ class Orinex:
                 tmp_sat_epoch['L2']=lines[index_first_line+2+i*2][16:30]
                 tmp_sat_epoch['L2LLI']=lines[index_first_line+2+i*2][30:31]
                 tmp_sat_epoch['L2SSI']=lines[index_first_line+2+i*2][31:32]
-                tmp_sat_epoch['P1']=lines[index_first_line+2+2*i][32:46]
-                tmp_sat_epoch['P1SSI']=lines[index_first_line+2+2*i][47:48]
-                tmp_sat_epoch['P2']=lines[index_first_line+2+2*i][48:62]
-                tmp_sat_epoch['P2SSI']=lines[index_first_line+2+2*i][63:64]
-                tmp_sat_epoch['C1']=lines[index_first_line+2+2*i][64:78]
-                tmp_sat_epoch['C1SSI']=lines[index_first_line+2+2*i][79:80]
+                tmp_sat_epoch['C1']=lines[index_first_line+2+2*i][32:46]
+                tmp_sat_epoch['C1SSI']=lines[index_first_line+2+2*i][47:48]
+                tmp_sat_epoch['P1']=lines[index_first_line+2+2*i][48:62]
+                tmp_sat_epoch['P1SSI']=lines[index_first_line+2+2*i][63:64]
+                tmp_sat_epoch['P2']=lines[index_first_line+2+2*i][64:78]
+                tmp_sat_epoch['P2SSI']=lines[index_first_line+2+2*i][79:80]
                 tmp_sat_epoch['S1']=lines[index_first_line+3+2*i][:14]
                 tmp_sat_epoch['S2']=lines[index_first_line+3+2*i][16:30]
                 tmp_epoch['epoch_satellites'][PRN]=tmp_sat_epoch
@@ -140,24 +141,26 @@ class Orinex:
                 tmp_epoch['epoch_satellites'][PRN]=tmp_sat_epoch
                 tmp_sat_epoch={}
         else:
+            index_first_line-=1
             for i in range(0, Nsat): # les PRN des satellites de l'epoch deuxieme ligne
-                PRN=lines[index_first_line][32+i*3:35+i*3]
+                PRN=lines[index_first_line+1][32+i*3:35+i*3]
                 tmp_sat_epoch['L1']=lines[index_first_line+2+i*2][:14]
                 tmp_sat_epoch['L1LLI']=lines[index_first_line+2+i*2][14:15]
                 tmp_sat_epoch['L1SSI']=lines[index_first_line+2+i*2][15:16]
                 tmp_sat_epoch['L2']=lines[index_first_line+2+i*2][16:30]
                 tmp_sat_epoch['L2LLI']=lines[index_first_line+2+i*2][30:31]
                 tmp_sat_epoch['L2SSI']=lines[index_first_line+2+i*2][31:32]
-                tmp_sat_epoch['P1']=lines[index_first_line+2+2*i][32:46]
-                tmp_sat_epoch['P1SSI']=lines[index_first_line+2+2*i][47:48]
-                tmp_sat_epoch['P2']=lines[index_first_line+2+2*i][48:62]
-                tmp_sat_epoch['P2SSI']=lines[index_first_line+2+2*i][63:64]
-                tmp_sat_epoch['C1']=lines[index_first_line+2+2*i][64:78]
-                tmp_sat_epoch['C1SSI']=lines[index_first_line+2+2*i][79:80]
+                tmp_sat_epoch['C1']=lines[index_first_line+2+2*i][32:46]
+                tmp_sat_epoch['C1SSI']=lines[index_first_line+2+2*i][47:48]
+                tmp_sat_epoch['P1']=lines[index_first_line+2+2*i][48:62]
+                tmp_sat_epoch['P1SSI']=lines[index_first_line+2+2*i][63:64]
+                tmp_sat_epoch['P2']=lines[index_first_line+2+2*i][64:78]
+                tmp_sat_epoch['P2SSI']=lines[index_first_line+2+2*i][79:80]
                 tmp_sat_epoch['S1']=lines[index_first_line+3+2*i][:14]
                 tmp_sat_epoch['S2']=lines[index_first_line+3+2*i][16:30]
                 tmp_epoch['epoch_satellites'][PRN]=tmp_sat_epoch
                 tmp_sat_epoch={}
+            index_first_line+=1
 
         self.epochs[lines[index_first_line][:3]+'_'+lines[index_first_line][3:6]+'_'+lines[index_first_line][6:9]+'_'+lines[index_first_line][9:12]+'_'+lines[index_first_line][12:15]+'_'+lines[index_first_line][15:26]]=tmp_epoch
 

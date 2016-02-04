@@ -114,4 +114,4 @@ class Nrinex:
                    'fit_interval':lines[i+6][22:41]
         }
         self.epochs[tmp_epoch['PRN']+'_'+tmp_epoch['time_y']+'_'+tmp_epoch['time_M']+'_'+tmp_epoch['time_d']+'_'+tmp_epoch['time_H']+'_'+tmp_epoch['time_m']+'_'+tmp_epoch['time_s']]=tmp_epoch
-#nrinex=Nrinex()
+#rinex=Nrinex()
